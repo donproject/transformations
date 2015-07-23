@@ -1,0 +1,125 @@
+body {
+  background-color: #035167;
+  color: #cccccc;
+  font-size: 1.2em;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+
+.container {
+  border:0;
+  margin:auto;
+}
+
+canvas {
+  background-color: #ffffff;
+  margin:auto;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  border: 1px solid black;
+}
+
+section {
+  margin: 2px 20px 2px 20px;
+}
+
+.levels {
+  text-align: center;
+  min-width: 818px;
+}
+
+.graph_container {
+  text-align: center;
+  min-width: 818px;
+}
+
+.graph {
+  border: 0;
+  display: inline-block;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #ffee77;
+  padding-top: 0.5em;
+}
+
+button {
+  border: 2px solid #035167;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #035167;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 0.5em;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+
+button:hover {
+  border: 2px solid #f97125;
+}
+
+.hints, .points {
+  text-align: center;
+  min-width: 818px;
+}
+
+.points {
+  display: none;
+}
+
+.controls_container {
+  display: none;
+  text-align: center;
+  min-width: 818px;
+  padding-top:0.5em;
+}
+
+.transformation1, .transformation2 {
+  text-align: center;
+  width: 90%;
+  margin: auto;
+}
+
+.transformationMenu, .transformationOptions {
+  width: 40%;
+  margin: auto;
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 2em;
+}
+
+ul li {
+  text-indent: 1em;
+}
+
+li:hover {
+  color: #035167;
+  background-color: #ffffff;
+}
+
+.selected, .selectedOption {
+  color: #035167;
+  background-color: #80e46b;
+}
+
+select {
+  font-size: 1em;
+  color: #cccccc;
+  background-color: #035167;
+}
+
+select:hover {
+  color: #035167;
+  background-color: #ffffff;
+}
+
+.formSubmit {
+  display: none;
+}
+
+.transformation2 {
+  display: none;
+}
