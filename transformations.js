@@ -57,6 +57,7 @@ function clearCanvas(canvas) {
   context.restore();
 
   context.beginPath();
+  context.setLineDash([2,2]);
   var i = 0;
     for (i=0; i<canvas.width; i = i + 20) {
       context.moveTo(i,0);
@@ -66,16 +67,15 @@ function clearCanvas(canvas) {
       context.moveTo(0,i);
       context.lineTo(canvas.width,i);
     }
-  context.setLineDash([2,2]);
   context.lineWidth = 1;
   context.stroke();
 
   context.beginPath();
+    context.setLineDash([]);
     context.moveTo(canvas.width / 2,0);
     context.lineTo(canvas.width / 2,canvas.height);
     context.moveTo(0,canvas.height / 2);
     context.lineTo(canvas.width,canvas.height / 2);
-  context.setLineDash([0]);
   context.lineWidth = 3;
   context.stroke();
 }
