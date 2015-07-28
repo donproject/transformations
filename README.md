@@ -9,7 +9,6 @@ The app uses HTML 5, CSS 3, Javascript and JQuery 2.1.3. It was programmed in Su
 ### Known issues
 * I should probably work on the code a bit. The app works, but maybe not as perfectly as possible. I have a lot to learn.
 * Mobile version? Meh.
-* It seems that in the most recent version of Chrome on Mac, the axes do not appear. That makes me sad.
 * The game is difficult. It's supposed to be.
 
 ### About the author
