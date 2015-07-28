@@ -229,8 +229,7 @@ function randomTransform(shape) {
     }
     transformedPolygon = reflect(transformation,shape);
   }
-
-  console.log(transformations);
+  
   return transformedPolygon;
 }
 
