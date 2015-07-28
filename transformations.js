@@ -1,7 +1,7 @@
-//transformation game
-
-// to-do:
-// add score keeping
+// transformation game
+// just trying to help the kids learn/practice geometric transformations
+// for educational use only
+// questions? email: burressd@bsd405.org
 
 var preImage = document.getElementById("preimage"),
 image = document.getElementById("image"),
@@ -11,7 +11,10 @@ userChoices = {},
 level = '',
 possiblePoints = 0,
 userPoints = 0,
-roundPoints = 0;
+roundPoints = 0,
+attempt = 1,
+correct = true,
+transformations = [];
 
 function polygon() {
   this.x = [0,0,0,0];
@@ -29,18 +32,13 @@ function polygon() {
   };
   this.display = function(canvas) {
     var context = canvas.getContext('2d');
-    context.setLineDash([0]);
     context.beginPath();
       context.moveTo(this.x[0] * scale + canvas.width / 2,-1 * this.y[0] * scale + canvas.height / 2);
       context.lineTo(this.x[1] * scale + canvas.width / 2,-1 * this.y[1] * scale + canvas.height / 2);
       context.lineTo(this.x[2] * scale + canvas.width / 2,-1 * this.y[2] * scale + canvas.height / 2);
       context.lineTo(this.x[3] * scale + canvas.width / 2,-1 * this.y[3] * scale + canvas.height / 2);
-    context.closePath();
-    context.fillStyle = "rgba(" + this.color + ",0.6)";
+    context.fillStyle = "rgba(" + this.color + ",0.5)";
     context.fill();
-    context.lineWidth = 1;
-    context.strokeStyle = "#000000";
-    context.stroke();
   };
 }
 
@@ -58,23 +56,6 @@ function clearCanvas(canvas) {
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.restore();
 
-  context.setLineDash([0]);
-
-  context.beginPath();
-    context.moveTo(canvas.width / 2,0);
-    context.lineTo(canvas.width / 2,canvas.height);
-    context.moveTo(0,canvas.height / 2);
-    context.lineTo(canvas.width,canvas.height / 2);
-  context.closePath();
-  context.lineWidth = 3;
-  context.strokeStyle = "#000000";
-  context.stroke();
-
-  if (context.setLineDash !== undefined) {
-    context.setLineDash([2,2]);
-  }
-
-  context.lineWidth = 1;
   context.beginPath();
   var i = 0;
     for (i=0; i<canvas.width; i = i + 20) {
@@ -85,7 +66,17 @@ function clearCanvas(canvas) {
       context.moveTo(0,i);
       context.lineTo(canvas.width,i);
     }
-  context.closePath();
+  context.setLineDash([2,2]);
+  context.lineWidth = 1;
+  context.stroke();
+
+  context.beginPath();
+    context.moveTo(canvas.width / 2,0);
+    context.lineTo(canvas.width / 2,canvas.height);
+    context.moveTo(0,canvas.height / 2);
+    context.lineTo(canvas.width,canvas.height / 2);
+  context.setLineDash([0]);
+  context.lineWidth = 3;
   context.stroke();
 }
 
@@ -155,22 +146,53 @@ function reflect(type,shape) {
 }
 
 function randomTransform(shape) {
-  var rand = Math.random() * 3;
+  var rand = Math.random() * 3, randX = 0, randY = 0;
+  if (transformation == "tra" && rand > 2) {
+    rand = Math.random() * 2;
+  } else if (rand > 1 && (transformation == "90cw" || transformation == "90ccw" || transformation == "180")) {
+    while (rand < 2 && rand > 1) {
+      rand = Math.random() * 3;
+    }
+  } else if (transformation == "x" || transformation == "y" || transformation == "yx" || transformation == "y-x") {
+    while (rand < 1) {
+      rand = Math.random() * 3;
+    }
+  }
   if (rand > 2) {
     //translate
     randX = Math.floor(Math.random() * 10) - 5;
     randY = Math.floor(Math.random() * 10) - 5;
     transformedPolygon = translate(randX,randY,shape);
-    transformation = "translate (x + " + randX + ", y + " + randY + ")";
+    if (level == "level2" || level == "level4") {
+      transformations.push("(x, y) -> (x + " + randX + ", y + " + randY + ")");
+    } else {
+      transformations.push("translate (x + " + randX + ", y + " + randY + ")");
+    }
+    transformation = "tra";
   } else if (rand > 1) {
     //rotate
     rand = Math.random() * 3;
     if (rand > 2) {
       transformation = '90cw';
+      if (level == "level2" || level == "level4") {
+        transformations.push("(x, y) -> (y, -x)");
+      } else {
+        transformations.push("rotate 90&deg; clockwise");
+      }
     } else if (rand > 1) {
       transformation = '90ccw';
+      if (level == "level2" || level == "level4") {
+        transformations.push("(x, y) -> (-y, x)");
+      } else {
+        transformations.push("rotate 90&deg; counter-clockwise");
+      }
     } else {
       transformation = '180';
+      if (level == "level2" || level == "level4") {
+        transformations.push("(x, y) -> (-x, -y)");
+      } else {
+        transformations.push("rotate 180&deg;");
+      }
     }
     transformedPolygon = rotate(transformation,shape);
   } else {
@@ -178,15 +200,37 @@ function randomTransform(shape) {
     rand = Math.random() * 4;
     if (rand > 3) {
       transformation = 'x';
+      if (level == "level2" || level == "level4") {
+        transformations.push("(x, y) -> (x, -y)");
+      } else {
+        transformations.push("reflect over x-axis");
+      }
     } else if (rand > 2) {
       transformation = 'y';
+      if (level == "level2" || level == "level4") {
+        transformations.push("(x, y) -> (-x, y)");
+      } else {
+        transformations.push("reflect over y-axis");
+      }
     } else if (rand > 1) {
       transformation = "yx";
+      if (level == "level2" || level == "level4") {
+        transformations.push("(x, y) -> (y, x)");
+      } else {
+        transformations.push("reflect over the line y = x");
+      }
     } else {
       transformation = "y-x";
+      if (level == "level2" || level == "level4") {
+        transformations.push("(x, y) -> (-y, -x)");
+      } else {
+        transformations.push("reflect over the line y = -x");
+      }
     }
     transformedPolygon = reflect(transformation,shape);
   }
+
+  console.log(transformations);
   return transformedPolygon;
 }
 
@@ -225,8 +269,8 @@ function descriptiveControls(location) {
     $('.'+location+' .transformationOptions').html('<ul>');
     if (event.target.id == "tra") {
       userChoices[location] = event.target.id;
-      $('.'+location+' .transformationOptions ul').append('X: <select id="translateX"><option value="-5">-5</option><option value="-4">-4</option><option value="-3">-3</option><option value="-2">-2</option><option value="-1">-1</option><option  value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br />');
-      $('.'+location+' .transformationOptions ul').append('Y: <select id="translateY"><option value="-5">-5</option><option value="-4">-4</option><option value="-3">-3</option><option value="-2">-2</option><option value="-1">-1</option><option  value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>');
+      $('.'+location+' .transformationOptions ul').append('X: <select id="translateX"><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option><option  value="0" selected>0</option><option value="-1">-1</option><option value="-2">-2</option><option value="-3">-3</option><option value="-4">-4</option><option value="-5">-5</option></select><br />');
+      $('.'+location+' .transformationOptions ul').append('Y: <select id="translateY"><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option><option  value="0" selected>0</option><option value="-1">-1</option><option value="-2">-2</option><option value="-3">-3</option><option value="-4">-4</option><option value="-5">-5</option></select>');
     } else if (event.target.id == "ref") {
       $('.'+location+' .transformationOptions ul').append('<li id="x">over the x-axis</li><li id="y">over the y-axis</li><li id="yx">over the line y = x</li><li id="y-x">over the line y = -x</li>');
     } else if (event.target.id == "rot") {
@@ -250,11 +294,11 @@ function coordinateControls(location) {
   $('.'+location).append('(x, y) -> ( ');
   $('.'+location).append('<select id="coordX"><option value="-x">-x</option><option value="x" selected>x</option><option value="-y">-y</option><option value="y">y</option></select>');
   $('.'+location).append(' + ');
-  $('.'+location).append('<select id="translateX"><option value="-5">-5</option><option value="-4">-4</option><option value="-3">-3</option><option value="-2">-2</option><option value="-1">-1</option><option  value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>');
+  $('.'+location).append('<select id="translateX"><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option><option  value="0" selected>0</option><option value="-1">-1</option><option value="-2">-2</option><option value="-3">-3</option><option value="-4">-4</option><option value="-5">-5</option></select>');
   $('.'+location).append(', ');
   $('.'+location).append('<select id="coordY"><option>-x</option><option>x</option><option>-y</option><option selected>y</option></select>');
   $('.'+location).append(' + ');
-  $('.'+location).append('<select id="translateY"><option value="-5">-5</option><option value="-4">-4</option><option value="-3">-3</option><option value="-2">-2</option><option value="-1">-1</option><option  value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>');
+  $('.'+location).append('<select id="translateY"><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option><option  value="0" selected>0</option><option value="-1">-1</option><option value="-2">-2</option><option value="-3">-3</option><option value="-4">-4</option><option value="-5">-5</option></select>');
   $('.'+location).append(' )');
 }
 
@@ -280,7 +324,6 @@ function userCoordinateTransform(num,shape) {
   userChoices["coordY"+num] = $('.transformation'+num+' select#coordY').val();
   userChoices["y"+num] = Number($('.transformation'+num+' select#translateY').val());
 
-  //do i need to save the coordinate version to userChoices??
   for (i=0; i < points; i++) {
     if (userChoices["coordX"+num] == "-x") {
       tempPolygon.x[i] = -1 * shape.x[i];
@@ -319,6 +362,7 @@ $('.levelSelect').on('click', function(event) {
   preImgPolygon.randomize();
   preImgPolygon.display(preImage);
   level = event.target.id;
+  transformations = [];
 
   if (level == "level1" || level == "level2") {
     imagePolygon = randomTransform(preImgPolygon);
@@ -339,7 +383,6 @@ $(document).on('change', 'select', function(event) {
 $('.formSubmit').on('click', function(event) {
   event.preventDefault();
 
-  //error checking (reject incomplete selections, not necessary for levels 2/4)
   if (level == "level1") {
     if (!userChoices.transformation1) {
       $('.hints').text("Please select a specific transformation!").css('color','#ee0000');
@@ -352,49 +395,66 @@ $('.formSubmit').on('click', function(event) {
     }
   }
 
-  //figure out what they chose and perform transformation(s) on userPolygon
   if (level == "level1") {
     userPolygon = userDescriptiveTransform("1",preImgPolygon);
     roundPoints = 1;
-    possiblePoints += roundPoints;
   } else if (level == "level2") {
     userPolygon = userCoordinateTransform("1",preImgPolygon);
     roundPoints = 2;
-    possiblePoints += roundPoints;
   }
   if (level == "level3") {
     userPolygon = userDescriptiveTransform("2",userDescriptiveTransform("1",preImgPolygon));
     roundPoints = 3;
-    possiblePoints += roundPoints;
   } else if (level == "level4") {
     userPolygon = userCoordinateTransform("2",userCoordinateTransform("1",preImgPolygon));
     roundPoints = 4;
+  }
+  if (attempt == 1) {
     possiblePoints += roundPoints;
   }
 
-  //track random transformations to provide more info to user?
+  $('.hints').text("Good job! To play again, choose a level!").css('color','#cccccc');
 
-  //modify to check all the points against each other to allow for different solutions
   userPolygon.color = "50,205,50";
-  userPoints += roundPoints;
   for (var i = 0; i < userPolygon.x.length; i++) {
     if (userPolygon.x[i] != imagePolygon.x[i] || userPolygon.y[i] != imagePolygon.y[i]) {
-      userPolygon.color = "220,20,60";
-      userPoints -= roundPoints;
+      userPolygon.color = "150,150,150";
+      correct = false;
+      $('.hints').text("Nope, sorry! Try again?").css('color','#ee0000');
+      
+      $('.hints').append("<br />The correct answer was "+transformations[0]);
+      if (level == "level3" || level == "level4") {
+        $('.hints').append(" and then "+transformations[1]);
+      }
       break;
     }
   }
+  if (attempt == 1 && correct === false) {
+    $('.hints').text("Incorrect. Try again for half-credit!").css('color','#ee0000');
+    attempt = 2;
+    correct = true;
+    userPolygon.display(image);
+    return;
+  } else if (correct === false) {
+    roundPoints = 0;
+    attempt = 1;
+    correct = true;
+  }
+  if (attempt == 2) {
+    roundPoints /= 2;
+    attempt = 1;
+  }
   userPolygon.display(image);
-  
-  $('.points').text("You have "+userPoints+" points out of "+possiblePoints+" attempted.").show();
-  $('.hints').text("To play again, choose a level!").css('color','#cccccc'); //make this say results?
+  userPoints += roundPoints;
+
+  $('.points').text("You have "+userPoints);
+  if (userPoints == 1) {
+    $('.points').append(" point out of "+possiblePoints+" attempted.");
+  } else {
+    $('.points').append(" points out of "+possiblePoints+" attempted.");
+  }
+  $('.points').show();
   $('.controls_container').hide();
   $('button').css('background-color','#ffffff');
   userChoices = {};
-
-  //debugging
-  // alert("you chose "+userChoices.transformation1+" "+userChoices.x1+" "+userChoices.y1+" and "+userChoices.transformation2+" "+userChoices.x2+" "+userChoices.y2);
-  // console.log(imagePolygon.x);
-  // console.log(userChoices);
-  // console.log(userPolygon.x);
 });
