@@ -11,5 +11,10 @@ The app uses HTML 5, CSS 3, Javascript and JQuery 2.1.3. It was programmed in Su
 * Mobile version? Meh.
 * The game is difficult. It's supposed to be.
 
-### About the author
+#### About the author
 I'm a math teacher. When I get frustrated with teaching I take programming classes. I worked on this over the summer without compensation for my time. If you want to donate for my work, PayPal me some cash: spam@thedonproject.com. If you want to offer changes, feel free to fork. This software is licensed under the GNU GPL 3.0. Thanks!
+
+#### Credits
+Borrowed tooltip code from [codepen.io](http://codepen.io/cbracco/pen/qzukg)
+All my javascript canvas info came from [html5canvastutorials.com](http://www.html5canvastutorials.com/)
+Color palette developed using [paletton.com](http://paletton.com/) because I am terrible at colors.

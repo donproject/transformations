@@ -384,12 +384,12 @@ $('.formSubmit').on('click', function(event) {
 
   if (level == "level1") {
     if (!userChoices.transformation1) {
-      $('.hints').text("Please select a specific transformation!").css('color','#ee0000');
+      $('.hints').text("Please select a specific transformation!").css('color','#f97125');
       return;
     }
   } else if (level == "level3") {
     if (!userChoices.transformation2) {
-      $('.hints').text("Please select TWO specific transformations!").css('color','#ee0000');
+      $('.hints').text("Please select TWO specific transformations!").css('color','#f97125');
       return;
     }
   }
@@ -419,9 +419,9 @@ $('.formSubmit').on('click', function(event) {
     if (userPolygon.x[i] != imagePolygon.x[i] || userPolygon.y[i] != imagePolygon.y[i]) {
       userPolygon.color = "150,150,150";
       correct = false;
-      $('.hints').text("Nope, sorry! Try again?").css('color','#ee0000');
+      $('.hints').text("Nope, sorry! Try again?").css('color','#f97125');
       
-      $('.hints').append("<br />The correct answer was "+transformations[0]);
+      $('.hints').append("<br />One possible answer is "+transformations[0]);
       if (level == "level3" || level == "level4") {
         $('.hints').append(" and then "+transformations[1]);
       }
@@ -429,7 +429,7 @@ $('.formSubmit').on('click', function(event) {
     }
   }
   if (attempt == 1 && correct === false) {
-    $('.hints').text("Incorrect. Try again for half-credit!").css('color','#ee0000');
+    $('.hints').text("Incorrect. Try again for half-credit!").css('color','#f97125');
     attempt = 2;
     correct = true;
     userPolygon.display(image);
@@ -451,6 +451,18 @@ $('.formSubmit').on('click', function(event) {
     $('.points').append(" point out of "+possiblePoints+" attempted.");
   } else {
     $('.points').append(" points out of "+possiblePoints+" attempted.");
+  }
+
+  if (userPoints == possiblePoints) {
+    $('.points').append(" A+!");
+  } else if ((userPoints / possiblePoints) > 0.9) {
+    $('.points').append(" Good job!");
+  } else if ((userPoints / possiblePoints) > 0.8) {
+    $('.points').append(" Decent!");
+  } else if ((userPoints / possiblePoints) > 0.7) {
+    $('.points').append(" Not bad.");
+  } else {
+    $('.points').append(" Keep trying!");
   }
   $('.points').show();
   $('.controls_container').hide();

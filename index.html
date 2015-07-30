@@ -8,11 +8,12 @@
   <body>
     <section class="container">
       <section class="levels">
-          <button id="level1" class="levelSelect">Level 1</button>
-          <button id="level2" class="levelSelect">Level 2</button>
-          <button id="level3" class="levelSelect">Level 3</button>
-          <button id="level4" class="levelSelect">Level 4</button>
+          <button id="level1" class="levelSelect" data-tooltip="Use transformation vocabulary [e.g.: reflect over the y-axis] to describe the image created by one transformation chosen at random by your computer. Correct answer earns 1 point.">Level 1</button>
+          <button id="level2" class="levelSelect" data-tooltip="Use a coordinate rule [e.g.: (x, y) -> (-x, -y)] to describe the image created by one transformation chosen at random by your computer. Correct answer earns 2 points.">Level 2</button>
+          <button id="level3" class="levelSelect" data-tooltip="Use transformation vocabulary [e.g.: reflect over the y-axis then translate right 1, down 2] to describe the image created by two transformations chosen at random by your computer. Correct answer earns 3 points.">Level 3</button>
+          <button id="level4" class="levelSelect" data-tooltip="Use two coordinate rules [e.g.: (x, y) -> (-x, -y)] to describe the image created by two transformations chosen at random by your computer. Correct answer earns 4 points.">Level 4</button>
       </section>
+      <section class="points"></section>
       <section class="graph_container">
           <!-- canvases must be square and same size -->
           <div class="graph">Pre-Image<br />
@@ -23,7 +24,6 @@
             <canvas id="image" width="400" height="400"></canvas>
           </div>
       </section>
-      <section class="points"></section>
       <section class="hints">Choose a level above!</section>
       <section class="controls_container">
         <form class="controls_form">

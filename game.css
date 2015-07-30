@@ -52,7 +52,7 @@ button {
   font-family: Tahoma, Geneva, sans-serif;
 }
 
-button:hover {
+button:hover, button:focus {
   border: 2px solid #f97125;
 }
 
@@ -63,6 +63,7 @@ button:hover {
 
 .points {
   display: none;
+  color: #5dd943;
 }
 
 .controls_container {
@@ -122,4 +123,69 @@ select:hover {
 
 .transformation2 {
   display: none;
+}
+
+/* Simple tooltip from http://codepen.io/cbracco/pen/qzukg and modified for use here */
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* modification for chrome highlight, tooltipped elements recieve styling on focus elsewhere */
+[data-tooltip]:focus {
+  outline: none;
+}
+
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-tooltip]:before {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  margin-top: 5px;
+  margin-left: -15em;
+  padding: 0.7em;
+  width: 30em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: .6em;
+  font-weight: normal;
+  line-height: 1.2;
+}
+
+[data-tooltip]:after {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  margin-left: -20px;
+  width: 0;
+  border-bottom: 20px solid #000;
+  border-bottom: 20px solid hsla(0, 0%, 20%, 0.9);
+  border-right: 20px solid transparent;
+  border-left: 20px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
 }
